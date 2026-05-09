@@ -196,27 +196,23 @@ const SectionHero = () => {
               .map((word, i) => (
                 <motion.span
                   key={i}
-                  initial={{
-                    opacity: 0,
-                    x: Math.random() * 200 - 100,
-                    y: Math.random() * 200 - 100,
-                    rotate: Math.random() * 90 - 45,
-                    scale: 1.5,
-                    filter: 'blur(8px)'
+                  initial={{ 
+                    opacity: 0, 
+                    y: 20,
+                    filter: 'blur(8px)',
+                    scale: 0.95
                   }}
-                  whileInView={{
-                    opacity: 1,
-                    x: 0,
+                  whileInView={{ 
+                    opacity: 1, 
                     y: 0,
-                    rotate: 0,
-                    scale: 1,
-                    filter: 'blur(0px)'
+                    filter: 'blur(0px)',
+                    scale: 1
                   }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0.1 }}
                   transition={{
-                    delay: 1 + i * 0.02,
-                    duration: 1.2,
-                    ease: [0.22, 1, 0.36, 1],
+                    delay: i * 0.03,
+                    duration: 0.8,
+                    ease: [0.215, 0.61, 0.355, 1], // premium cubic-bezier
                   }}
                   className="inline-block mr-[0.3em] py-1"
                 >
