@@ -83,7 +83,7 @@ const SpotlightText = ({ text }: { text: string }) => {
       
       {/* Foreground Revealed Text (Masked) */}
       <motion.h2 
-        className="text-[10vw] font-serif leading-none absolute inset-0 text-brand-yellow pointer-events-none flex items-center justify-center"
+        className="text-[12vw] lg:text-[10vw] font-serif leading-none absolute inset-0 text-brand-yellow pointer-events-none flex items-center justify-center"
         style={{
           clipPath: useTransform(
             [spotlightX, spotlightY],
@@ -113,28 +113,30 @@ const Navigation = ({ onNavClick }: { onNavClick: (e: React.MouseEvent<HTMLAncho
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full p-8 flex justify-end items-start z-50 mix-blend-difference pointer-events-none">
-      <div className="flex flex-wrap justify-end gap-x-8 lg:gap-x-12 gap-y-4 pointer-events-auto max-w-xl">
+    <nav className="fixed top-0 left-0 w-full p-6 lg:p-8 flex justify-center lg:justify-end items-start z-50 mix-blend-difference pointer-events-none">
+      <div className="flex flex-wrap justify-center lg:justify-end gap-x-6 lg:gap-x-12 gap-y-4 pointer-events-auto max-w-xl">
         {navItems.map((item) => (
           <a
             key={item.label}
             href={item.href}
             onClick={(e) => onNavClick(e, item.href)}
-            className="text-[10px] tracking-[0.2em] font-medium transition-all duration-500 relative group cursor-pointer text-white"
+            className="text-[9px] lg:text-[10px] tracking-[0.2em] font-medium transition-all duration-500 relative group cursor-pointer text-white"
           >
             {item.label}
             <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full" />
           </a>
         ))}
-        {socialItems.map((item) => (
-          <a
-            key={item.label}
-            href={item.href}
-            className="text-[10px] tracking-[0.2em] font-medium text-white/60 hover:text-white transition-colors"
-          >
-            {item.label}
-          </a>
-        ))}
+        <div className="hidden lg:flex gap-x-12">
+          {socialItems.map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              className="text-[10px] tracking-[0.2em] font-medium text-white/60 hover:text-white transition-colors"
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
       </div>
     </nav>
   );
@@ -157,8 +159,8 @@ const SectionHero = () => {
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           className="relative"
         >
-          <span className="absolute -top-12 right-0 text-[10px] tracking-[0.2em] font-medium opacity-50">(2026)</span>
-          <h1 className="text-[18vw] leading-[0.8] font-serif font-black tracking-tighter text-brand-dark flex items-baseline justify-center select-text">
+          <span className="absolute -top-12 right-0 text-[10px] tracking-[0.2em] font-medium opacity-50 hidden md:block">(2026)</span>
+          <h1 className="text-7xl md:text-[12vw] lg:text-[18vw] leading-[0.8] font-serif font-black tracking-tighter text-brand-dark flex items-baseline justify-center select-text">
             {letters.map((letter, i) => (
               <span
                 key={i}
@@ -186,9 +188,9 @@ const SectionHero = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-12 max-w-[600px]"
+          className="mt-12 max-w-[600px] w-full"
         >
-          <p className="text-[15px] leading-relaxed tracking-wide font-medium serif italic text-brand-dark/80 flex flex-wrap justify-center">
+          <p className="text-[13px] lg:text-[15px] leading-relaxed tracking-wide font-medium serif italic text-brand-dark/80 flex flex-wrap justify-center">
             {`"I'm Paras Joshi. A pre-final year CSE student and a full stack developer who just really likes building stuff. Not much more to it than that. I get an idea, I open a blank file, and I don't stop until something's running on a screen. Most of my projects start at midnight and live on GitHub. I'm into open source, I'm into clean code, and I'm definitely not into writing about myself in third person but here we are."`
               .split(" ")
               .map((word, i) => (
