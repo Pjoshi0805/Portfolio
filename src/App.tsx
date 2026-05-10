@@ -142,17 +142,67 @@ const Navigation = ({ onNavClick }: { onNavClick: (e: React.MouseEvent<HTMLAncho
   );
 };
 
+// --- Magnified Word Component ---
+const MagnifiedWord = ({ word, mouseX, mouseY }: { word: string, mouseX: any, mouseY: any }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+  
+  const distance = useTransform([mouseX, mouseY], ([x, y]) => {
+    if (!ref.current) return 1000;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    const dx = x - centerX;
+    const dy = y - centerY;
+    return Math.sqrt(dx * dx + dy * dy);
+  });
+
+  const scale = useSpring(useTransform(distance, [0, 100], [1.3, 1], { clamp: true }), {
+    stiffness: 150,
+    damping: 15
+  });
+
+  const yOffset = useSpring(useTransform(distance, [0, 100], [-8, 0], { clamp: true }), {
+    stiffness: 150,
+    damping: 15
+  });
+
+  return (
+    <motion.span
+      ref={ref}
+      style={{ 
+        scale,
+        y: yOffset,
+        display: 'inline-block',
+      }}
+      className="mr-[0.3em] py-1 cursor-none text-brand-dark hover:text-brand-yellow transition-colors duration-300"
+    >
+      {word}
+    </motion.span>
+  );
+};
+
 const SectionHero = () => {
   const letters = ['P', 'a', 'r', 'a', 's'];
+  const mouseX = useMotionValue(-1000);
+  const mouseY = useMotionValue(-1000);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    mouseX.set(e.clientX);
+    mouseY.set(e.clientY);
+  };
+
+  const aboutText = `"I'm Paras Joshi. A pre-final year CSE student and a full stack developer who just really likes building stuff. Not much more to it than that. I get an idea, I open a blank file, and I don't stop until something's running on a screen. Most of my projects start at midnight and live on GitHub. I'm into open source, I'm into clean code, and I'm definitely not into writing about myself in third person but here we are."`;
 
   return (
     <motion.section
       id="about"
       initial={{ backgroundColor: '#D1A740' }}
       animate={{ backgroundColor: '#D1A740' }}
+      onMouseMove={handleMouseMove}
       className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden py-32"
     >
-      <div className="relative flex flex-col items-center text-center px-8 z-10">
+      <div className="relative flex flex-col items-center text-center px-8 z-10 w-full max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -162,8 +212,8 @@ const SectionHero = () => {
           <span className="absolute -top-12 right-0 text-[10px] tracking-[0.2em] font-medium opacity-50 hidden md:block">(2026)</span>
           <h1 className="text-7xl md:text-[12vw] lg:text-[18vw] leading-[0.8] font-serif font-black tracking-tighter text-brand-dark flex items-baseline justify-center select-text">
             {letters.map((letter, i) => (
-              <span
-                key={i}
+              <span 
+                key={i} 
                 className={`relative inline-block hover:text-white transition-colors duration-500 ${letter === 'a' && i === 1 ? 'italic' : ''}`}
               >
                 {letter}
@@ -188,38 +238,13 @@ const SectionHero = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-12 max-w-[600px] w-full"
+          className="mt-12 max-w-[800px] w-full"
         >
-          <p className="text-[13px] lg:text-[15px] leading-relaxed tracking-wide font-medium serif italic text-brand-dark/80 flex flex-wrap justify-center">
-            {`"I'm Paras Joshi. A pre-final year CSE student and a full stack developer who just really likes building stuff. Not much more to it than that. I get an idea, I open a blank file, and I don't stop until something's running on a screen. Most of my projects start at midnight and live on GitHub. I'm into open source, I'm into clean code, and I'm definitely not into writing about myself in third person but here we are."`
-              .split(" ")
-              .map((word, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ 
-                    opacity: 0, 
-                    y: 20,
-                    filter: 'blur(8px)',
-                    scale: 0.95
-                  }}
-                  whileInView={{ 
-                    opacity: 1, 
-                    y: 0,
-                    filter: 'blur(0px)',
-                    scale: 1
-                  }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  transition={{
-                    delay: i * 0.03,
-                    duration: 0.8,
-                    ease: [0.215, 0.61, 0.355, 1], // premium cubic-bezier
-                  }}
-                  className="inline-block mr-[0.3em] py-1"
-                >
-                  {word}
-                </motion.span>
-              ))}
-          </p>
+          <div className="text-[15px] lg:text-[18px] leading-relaxed tracking-wide font-medium serif italic text-brand-dark/80 flex flex-wrap justify-center">
+            {aboutText.split(" ").map((word, i) => (
+              <MagnifiedWord key={i} word={word} mouseX={mouseX} mouseY={mouseY} />
+            ))}
+          </div>
         </motion.div>
       </div>
 
