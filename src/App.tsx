@@ -286,7 +286,7 @@ const SectionSkills = () => {
   return (
     <section 
       id="skills" 
-      className="bg-brand-cream px-12 lg:px-32 py-48 relative border-t border-brand-dark/10 overflow-hidden"
+      className="bg-brand-dark px-12 lg:px-32 py-48 relative border-t border-white/5 overflow-hidden"
       onMouseMove={handleMouseMove}
     >
       <div className="max-w-7xl mx-auto">
@@ -295,7 +295,7 @@ const SectionSkills = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="text-[8vw] leading-none mb-32 font-serif"
+          className="text-[8vw] leading-none mb-32 font-serif text-white/90"
         >
           Skills
         </motion.h2>
@@ -310,12 +310,12 @@ const SectionSkills = () => {
               transition={{ delay: index * 0.05, duration: 0.8 }}
               onMouseEnter={() => setHoveredSkill(skill.logo)}
               onMouseLeave={() => setHoveredSkill(null)}
-              className="group relative py-8 border-b border-brand-yellow/30 flex items-baseline gap-6 cursor-none"
+              className="group relative py-8 border-b border-white/5 flex items-baseline gap-6 cursor-none"
             >
-              <span className="text-[10px] tracking-widest font-bold opacity-30">
+              <span className="text-[10px] tracking-widest font-bold text-brand-yellow">
                 {index < 9 ? `0${index + 1}` : index + 1}
               </span>
-              <h3 className="text-3xl lg:text-5xl font-serif transition-all duration-500 group-hover:italic group-hover:translate-x-4">
+              <h3 className="text-3xl lg:text-5xl font-serif text-white/50 transition-all duration-500 group-hover:text-brand-yellow group-hover:italic group-hover:translate-x-4">
                 {skill.name}
               </h3>
             </motion.div>
@@ -341,7 +341,7 @@ const SectionSkills = () => {
             <img 
               src={hoveredSkill} 
               alt="Skill Logo" 
-              className="w-full h-full object-contain filter drop-shadow-2xl brightness-110"
+              className="w-full h-full object-contain filter drop-shadow-[0_0_20px_rgba(209,167,64,0.3)] brightness-125"
             />
           </motion.div>
         )}
